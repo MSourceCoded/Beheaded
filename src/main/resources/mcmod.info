@@ -1,0 +1,16 @@
+[
+{
+  "modid": "beheaded",
+  "name": "Beheaded",
+  "description": "Just in case you wanted more Heads in Minecraft",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["SourceCoded"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
