@@ -1,22 +1,15 @@
 package sourcecoded.beheaded.utils;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.SimpleResource;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import sourcecoded.beheaded.Beheaded;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class EntityHelper {
@@ -28,7 +21,7 @@ public class EntityHelper {
     public static double defaultChance = 0.05;
 
     @SuppressWarnings("unchecked")
-    public static void init(final boolean isClientSide) {
+    public static void init() {
         Map mapBasic = EntityList.stringToClassMapping;
         Collection en = mapBasic.values();
         Object[] array = en.toArray();
@@ -48,12 +41,10 @@ public class EntityHelper {
             @Override
             public void run() {
                 JSONify((HashMap<String, Class<? extends EntityLiving>>) living.clone());
-                //EntityHelper.checkDropChances(isClientSide);
             }
         }).start();
 
-        if (isClientSide)
-            checkTextures((HashMap<String, Class<? extends EntityLiving>>) living.clone());
+        checkTexturesUniversal((HashMap<String, Class<? extends EntityLiving>>) living.clone());
 
         copy((HashMap<String, Class<? extends EntityLiving>>) living.clone());
     }
@@ -110,6 +101,7 @@ public class EntityHelper {
         }
     }
 
+    @Deprecated
     public static void checkTextures(HashMap<String, Class<? extends EntityLiving>> available) {
         Iterator<Map.Entry<String, Class<? extends EntityLiving>>> it = available.entrySet().iterator();
         while (it.hasNext()) {
@@ -128,34 +120,18 @@ public class EntityHelper {
         }
     }
 
-//    @SuppressWarnings("unchecked")
-//    public static void checkDropChances(boolean isClientSide) {
-//        ResourceLocation location = new ResourceLocation("beheaded", "drops.json");
-//        IResourceManager resourceManager = Minecraft.getMinecraft().getResourceManager();
-//
-//        try {
-//            SimpleResource resource = (SimpleResource) resourceManager.getResource(location);
-//
-//            JsonReader reader = new JsonReader(new InputStreamReader(resource.getInputStream()));
-//            JsonElement element = new JsonParser().parse(reader);
-//            JsonObject object = element.getAsJsonObject();
-//
-//            HashMap<String, Class<? extends EntityLiving>> livingNew = (HashMap<String, Class<? extends EntityLiving>>) living.clone();
-//
-//            Iterator<Map.Entry<String, Class<? extends EntityLiving>>> it = livingNew.entrySet().iterator();
-//            while (it.hasNext()) {
-//                Map.Entry<String, Class<? extends EntityLiving>> pairs = (Map.Entry<String, Class<? extends EntityLiving>>) it.next();
-//
-//                JsonObject currClass = object.getAsJsonObject(pairs.getKey());
-//                double chance = currClass.get("DropChance").getAsDouble();
-//
-//                dropChances.put(pairs.getKey(), chance);
-//
-//                it.remove();
-//            }
-//        } catch (Exception er) {
-//            er.printStackTrace();
-//        }
-//    }
+    public static void checkTexturesUniversal(HashMap<String, Class<? extends EntityLiving>> available) {
+        Iterator<Map.Entry<String, Class<? extends EntityLiving>>> it = available.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, Class<? extends EntityLiving>> pairs = it.next();
 
+            InputStream st = Beheaded.class.getResourceAsStream(String.format("/assets/beheaded/textures/model/head/%s.png", pairs.getKey()));
+
+            if (st == null) {
+                living.remove(pairs.getKey());
+            }
+
+            it.remove();
+        }
+    }
 }

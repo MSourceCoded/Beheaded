@@ -35,7 +35,7 @@ public class Beheaded {
     public void init(FMLInitializationEvent ev) {
         proxy.registerProxy();
 
-        EntityHelper.init(FMLCommonHandler.instance().getEffectiveSide().isClient());
+        EntityHelper.init();
         Registry.Items.registerAll();
         Registry.Blocks.registerAll();
         Registry.TileEntities.registerAll();

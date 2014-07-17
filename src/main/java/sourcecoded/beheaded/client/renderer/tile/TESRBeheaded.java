@@ -28,7 +28,7 @@ public class TESRBeheaded extends TileEntitySpecialRenderer {
         if (location == null)
             location = new ResourceLocation("beheaded", String.format("%s/%s.png", prefix, tile.headType));
 
-        if (!location.getResourcePath().endsWith(tile.headType + ".png"))
+        if (!location.getResourcePath().endsWith("/" + tile.headType + ".png"))
             location = new ResourceLocation("beheaded", String.format("%s/%s.png", prefix, tile.headType));
 
         this.bindTexture(location);
