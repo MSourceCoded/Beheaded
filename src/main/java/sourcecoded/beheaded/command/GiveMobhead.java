@@ -24,10 +24,10 @@ public class GiveMobhead extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if (args.length != 1)
-            throw new WrongUsageException(getCommandUsage(sender), new Object[0]);
+            throw new WrongUsageException(getCommandUsage(sender));
 
         if (!EntityHelper.living.containsKey(args[0]))
-            throw new WrongUsageException("That head was not found!", new Object[0]);
+            throw new WrongUsageException("That head was not found!");
 
         ItemUtils.dropSkull(args[0], (EntityPlayer) sender);
     }

@@ -20,7 +20,8 @@ public class BlockBeheaded extends BlockContainer {
     public BlockBeheaded() {
         super(Material.circuits);
         this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
-        this.setHardness(10F);
+        this.setHardness(1F);
+        this.setBlockTextureName("minecraft:stone");
     }
 
     public int getRenderType() {
@@ -73,7 +74,7 @@ public class BlockBeheaded extends BlockContainer {
         TileBeheaded tile = (TileBeheaded) world.getTileEntity(x, y, z);
         String name = tile.headType;
 
-        ItemUtils.dropSkull(name, world.getClosestPlayer(x, y, z, 5));
+        ItemUtils.dropSkull(name, x, y, z, world);
 
         super.breakBlock(world, x, y, z, block, meta);
     }
