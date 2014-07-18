@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -12,6 +12,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import sourcecoded.beheaded.Beheaded;
 import sourcecoded.beheaded.CreativeTab;
 import sourcecoded.beheaded.Registry;
 import sourcecoded.beheaded.tile.TileBeheaded;
@@ -19,17 +20,40 @@ import sourcecoded.beheaded.utils.EntityHelper;
 
 import java.util.List;
 
-public class ItemBeheaded extends Item {
+public class ItemBeheaded extends ItemArmor {
 
     @SideOnly(Side.CLIENT)
     public IIcon[] icons;
 
     public ItemBeheaded() {
+        super(ArmorMaterial.CLOTH, 0, 0);
+
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
         this.setCreativeTab(CreativeTab.beheaded);
         this.setUnlocalizedName("beheaded");
+        this.setMaxStackSize(64);
         this.setTextureName("beheaded:headBase");
+    }
+
+    @Override
+    public String getArmorTexture(ItemStack itemStack, Entity entity, int slot, String type) {
+        if (itemStack.stackTagCompound == null || !itemStack.stackTagCompound.hasKey("type")) {
+            return null;
+        }
+
+        String headType = itemStack.stackTagCompound.getString("type");
+        return String.format("%s:textures/model/head/%s.png", Beheaded.MODID, headType);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses() {
+        return false;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack par1ItemStack, int par2) {
+        return 16777215;
     }
 
     public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {

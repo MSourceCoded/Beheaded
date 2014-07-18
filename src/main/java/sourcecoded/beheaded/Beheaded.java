@@ -8,6 +8,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.MinecraftForge;
 import sourcecoded.beheaded.command.GiveMobhead;
 import sourcecoded.beheaded.utils.ConfigUtils;
@@ -34,6 +35,8 @@ public class Beheaded {
     @Mod.EventHandler
     public void init(FMLInitializationEvent ev) {
         proxy.registerProxy();
+
+
 
         EntityHelper.init();
         Registry.Items.registerAll();

@@ -13,7 +13,7 @@ public class TESRBeheaded extends TileEntitySpecialRenderer {
 
     public ResourceLocation location;
     public static String prefix = "textures/model/head";
-    public static ModelSkeletonHead baseModel = new ModelSkeletonHead(0, 0, 32, 16);
+    public static ModelSkeletonHead baseModel = new ModelSkeletonHead(0, 0, 64, 32);
 
     @Override
     public void renderTileEntityAt(TileEntity te, double x, double y, double z, float PTT) {

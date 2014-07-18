@@ -1,5 +1,6 @@
 package sourcecoded.beheaded;
 
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
