@@ -17,15 +17,15 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.2-0.1.3"
+version = "1.7.10-0.2.0"
 group= "sourcecoded.beheaded" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "beheaded"
 
 minecraft {
-    version = "1.7.2-10.12.2.1147"
+    version = "1.7.10-10.13.0.1207"
 	
 	replace "@VERSION@", project.version
-	replaceIn "Beheaded.java"
+	replaceIn "Constants.java"
 }
 
 dependencies {

@@ -2,12 +2,15 @@ package sourcecoded.beheaded.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentTranslationFormatException;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -34,6 +37,16 @@ public class ItemBeheaded extends ItemArmor {
         this.setUnlocalizedName("beheaded");
         this.setMaxStackSize(64);
         this.setTextureName("beheaded:headBase");
+    }
+
+    public void getSubItems(Item item, CreativeTabs tab, List list) {
+        super.getSubItems(item, tab, list);
+        for (String s : EntityHelper.living.keySet()) {
+            ItemStack stack = new ItemStack(this);
+            stack.stackTagCompound = new NBTTagCompound();
+            stack.stackTagCompound.setString("type", s);
+            list.add(stack);
+        }
     }
 
     @Override
@@ -120,9 +133,9 @@ public class ItemBeheaded extends ItemArmor {
 
     public String getItemStackDisplayName(ItemStack par1ItemStack) {
         if (par1ItemStack.stackTagCompound != null && par1ItemStack.stackTagCompound.hasKey("type") && !par1ItemStack.stackTagCompound.getString("type").equals("Unknown"))
-            return String.format("Mob Skull %s[%s]", EnumChatFormatting.GOLD, par1ItemStack.stackTagCompound.getString("type"));
+            return String.format("Mob Skull %s[%s]%s", EnumChatFormatting.GOLD, par1ItemStack.stackTagCompound.getString("type"), EnumChatFormatting.WHITE);
         else
-            return String.format("Mob Skull %s[Unknown]", EnumChatFormatting.RED);
+            return String.format("Mob Skull %s[Unknown]%s", EnumChatFormatting.RED, EnumChatFormatting.WHITE);
     }
 
     @SideOnly(Side.CLIENT)

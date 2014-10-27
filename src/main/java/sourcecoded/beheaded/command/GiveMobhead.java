@@ -33,8 +33,6 @@ public class GiveMobhead extends CommandBase {
     }
 
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr) {
-        ArrayList list = new ArrayList();
-        list.addAll(EntityHelper.living.keySet());
-        return list;
+        return getListOfStringsMatchingLastWord(par2ArrayOfStr, EntityHelper.living.keySet().toArray(new String[0]));
     }
 }

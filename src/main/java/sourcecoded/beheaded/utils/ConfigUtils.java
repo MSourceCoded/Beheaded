@@ -27,7 +27,7 @@ public class ConfigUtils {
         HashMap<String, Class<? extends EntityLiving>> map = EntityHelper.living;
 
         for (String name : map.keySet()) {
-            EntityHelper.dropChances.put(name, c.getDouble(CHANCES_PREFIX + name));
+            EntityHelper.dropChances.put(name, c.getDouble(CHANCES_CATEGORY.toLowerCase(), CHANCES_PREFIX + name));
         }
 
         c.saveConfig();
