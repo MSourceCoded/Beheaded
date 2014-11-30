@@ -1,21 +1,19 @@
 package sourcecoded.beheaded;
 
 
-import com.typesafe.config.ConfigIncluderURL;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.MinecraftForge;
 import sourcecoded.beheaded.command.GiveMobhead;
 import sourcecoded.beheaded.utils.ConfigUtils;
 import sourcecoded.beheaded.utils.EntityHelper;
 import sourcecoded.core.SourceCodedCore;
 import sourcecoded.core.configuration.SourceConfig;
+import sourcecoded.core.configuration.gui.SourceConfigGuiFactory;
 import sourcecoded.core.version.VersionChecker;
 
 @Mod(modid = Beheaded.MODID, version = Beheaded.VERSION, dependencies = "required-after:sourcecodedcore")
@@ -28,15 +26,18 @@ public class Beheaded {
 
     public static VersionChecker checker;
 
+    @Mod.Instance(Beheaded.MODID)
+    public static Beheaded instance;
+
     @SidedProxy(clientSide="sourcecoded.beheaded.client.ClientProxy", serverSide="sourcecoded.beheaded.CommonProxy")
     public static CommonProxy proxy;
+
+    public static SourceConfigGuiFactory guiFactory;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent ev) {
         configuration = new SourceConfig(ev.getSuggestedConfigurationFile());
         configuration.saveConfig();
-
-
     }
 
     @Mod.EventHandler
@@ -62,6 +63,9 @@ public class Beheaded {
 
         if (checker != null)
             checker.check();
+
+        guiFactory = SourceConfigGuiFactory.create(Beheaded.MODID, instance, configuration);
+        guiFactory.inject();
     }
 
     @Mod.EventHandler

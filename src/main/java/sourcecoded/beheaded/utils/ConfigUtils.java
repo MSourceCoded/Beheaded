@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class ConfigUtils {
 
     public static String CHANCES_CATEGORY = "DropChances";
-    public static String VERSION_CATEGORY = "Version";
+    public static String VERSION_CATEGORY = "version";
 
     public static String CHANCES_PREFIX = "Chances_";
     public static String VERSION_ENABLED = "versionEnabled";
