@@ -11,10 +11,8 @@ import net.minecraftforge.common.MinecraftForge;
 import sourcecoded.beheaded.command.GiveMobhead;
 import sourcecoded.beheaded.utils.ConfigUtils;
 import sourcecoded.beheaded.utils.EntityHelper;
-import sourcecoded.core.SourceCodedCore;
 import sourcecoded.core.configuration.SourceConfig;
 import sourcecoded.core.configuration.gui.SourceConfigGuiFactory;
-import sourcecoded.core.version.VersionChecker;
 
 @Mod(modid = Beheaded.MODID, version = Beheaded.VERSION, dependencies = "required-after:sourcecodedcore")
 public class Beheaded {
@@ -23,8 +21,6 @@ public class Beheaded {
     public static final String VERSION = "@VERSION@";
 
     public static SourceConfig configuration;
-
-    public static VersionChecker checker;
 
     @Mod.Instance(Beheaded.MODID)
     public static Beheaded instance;
@@ -51,18 +47,12 @@ public class Beheaded {
 
         ConfigUtils.dropChanceInit(configuration);
 
-        if (!SourceCodedCore.isDevEnv && configuration.getBool(ConfigUtils.VERSION_CATEGORY, ConfigUtils.VERSION_ENABLED))
-            checker = new VersionChecker(Beheaded.MODID, "https://raw.githubusercontent.com/MSourceCoded/Beheaded/master/version/{MC}.txt", Beheaded.VERSION, configuration.getBool(ConfigUtils.VERSION_CATEGORY, ConfigUtils.VERSION_AUTO), configuration.getBool(ConfigUtils.VERSION_CATEGORY, ConfigUtils.VERSION_SILENT));
-
         MinecraftForge.EVENT_BUS.register(new DropLogic());
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent ev) {
         ConfigUtils.dropChancesRefresh(configuration);
-
-        if (checker != null)
-            checker.check();
 
         guiFactory = SourceConfigGuiFactory.create(Beheaded.MODID, instance, configuration);
         guiFactory.inject();
